@@ -4,15 +4,18 @@
 2- Obter o endereço do usuario pelo ID. 
 */
 
+// o usuário retornará um objeto Promisse, que possui uma função que retorna um Callback (diz oq será feito quando resolver - valor, e quando houver erro - reject)
 function obterusuario(callback){
-    /* funcao setTimeout simula o retorno da chamada para um BD */
-    setTimeout( function(){
-        return callback(null, {
-            id: 1,
-            nome: 'Yindi',
-            dataNascimento: new Date()
-        })
-    }, 1000)
+    return new Promise (function resolvePromise(resolve, reject){
+        setTimeout( function(){
+            return resolve ({
+                id: 1,
+                nome: 'Yindi',
+                dataNascimento: new Date()
+            })
+        }, 1000)
+    })
+    
 }
 
 function obterTelefone(idUsuario, callback ){
@@ -33,57 +36,16 @@ function obterEndereco(idUsuario, callback){
     }, 2000);
 }
 
-/* Tudo oq é executado em segundo plano, precisa de uma função,
-para que essa função seja chamada quando terminar a execução.
-Se for criada uma constante usuario=ObterUsuario() diretamente,
-o resultado será usuario undefined, pois o node não conseguirá
-acessar o valor do usuario. Isso pq ele resolve tarefas assíncronas,
-ou seja com tempos de resolução diferentes. 
-Assim, a função obterUsuario é invocada corretamente, mas ao fazer a 
-chamada de tempo de espera, ele “pausa a execução” deste método e continua
-a execução de operações menos custosas à aplicação e somente ao fim 
-retorna o valor ao ponto definido. 
-Para resolver isso criamos a função resolverUsuario passamos uma função de
-callback em ObterUsuario() como argumento do método para sincronizar 
-o retorno da função. 
- */
+// para manipular o sucesso usamos a função .then()
+// para manipular erros, usamos o .catch()
 
-function resolverUsuario(error, usuario) {
+const usuarioPromise = obterusuario()
 
-    console.log('usuario', usuario)
-}
-
-//Dessa forma o usuario só será chamado através de resolverUsuario() quando obterUsuario() terminar o retorno do dado
-//obterusuario(resolverUsuario)
-obterusuario(function resolverUsuario(error, usuario) {
-    // null || "" || 0 === false . Se o valor do dado retornado for false, cairá nas consiçoes de error dos if.
-    if (error){
-        console.error('DEU RUIM em USUARIO', error)
-        return;
-    }
-    obterTelefone(usuario.id, function resolverTelefone(error1, telefone){
-        if (error1){
-            console.error('DEU RUIM em TELEFONE', error1)
-            return;
-        }
+//recebe o callback apenas com o resultado
+usuarioPromise
+    .then(function(resultado){
+        console.log('resultado', resultado)
     })
-        obterEndereco(usuario.id, function resolverEndereco(error2, endereço){
-            if (error2){
-                console.error('DEU RUIM em ENDERECO', error2)
-                return;
-            }
-        })
-            // para printar na tela do usuario se usa a crase
-            console.log(`  
-            Nome: ${usuario.nome},
-            Endereco: ${endereço.rua}, ${endereço.numero}
-            Telefone: ${telefone.ddd}, ${telefone.telefone}
-            `)
-        
+    .catch(function(error){
+        console.error('DEU RUIM', error)
     })
-
-
-//const telefone = obterTelefone(usuario.id)
-
-
-//console.log('telefone', telefone)
