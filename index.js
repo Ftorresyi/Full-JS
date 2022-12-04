@@ -4,6 +4,8 @@
 2- Obter o endereço do usuario pelo ID. 
 */
 // importamos um módulo interno do Node.JS que faz a manipulação de Promises
+const util = require('util')
+const obterEnderecoAsync = util.promisify(obterEndereco)
 
 // o usuário retornará um objeto Promisse, que possui uma função que retorna um Callback (diz oq será feito quando resolver - valor, e quando houver erro - reject)
 function obterusuario(usuario){
@@ -60,9 +62,27 @@ usuarioPromise
             }
         })
     })
+    //esse .then recebe resultado do .then anterior. Fará isso para obter endereço da promise do NodeJS (obterEnderecoAsync)
     .then(function(resultado){
-        console.log('resultado', resultado)
+        const endereco = obterEnderecoAsync(resultado.usuario.id)
+        //return endereco;
+        return endereco.then(function resolverEndereco(result){
+            return{
+                usuario: resultado.usuario,
+                telefone: resultado.telefone,
+                endereco: result
+            }
+        })
     })
+    .then(function(resultado){
+        console.log(`
+            Nome: ${resultado.usuario.nome}
+            Endereco: ${resultado.endereco.rua}, ${resultado.endereco.numero}
+            Telefone: (${resultado.telefone.ddd}) ${resultado.telefone.telefone}
+        `)
+    })
+    //Se a função acima der erro cairá no cairá no .catch abaixo
     .catch(function(error){
         console.error('DEU RUIM', error)
     })
+    
