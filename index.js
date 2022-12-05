@@ -4,7 +4,7 @@
 
 
 //Removemos as implementações das promises do código anterior e deixamos apenas as assinaturas das funções
-//Ele é basicamente usado para converter um método que retorna respostas usando uma função de retorno
+
 const util = require('util')
 const obterEnderecoAsync = util.promisify(obterEndereco)
 
@@ -56,18 +56,3 @@ async function main (){
         console.error('DEU RUIM', error)
     }
 }
-
-/* PROMOISEFY:
-O métodoutil.promisify()define no módulo utilitários da biblioteca padrão Node.js. 
-Ele é basicamente usado para converter um método que retorna respostas usando uma função de retorno 
-de chamada para retornar respostas em um objeto promise. Normalmente, muito em breve, torna-se muito 
-difícil trabalhar com retornos de chamada devido ao aninhamento de retorno de chamada ou infernos de retorno de chamada. 
-Torna-se muito difícil organizar ou formatar nosso código para que outros desenvolvedores, se estiverem trabalhando com esse código, 
-possam entendê-lo facilmente. Por outro lado, é muito fácil lidar com promessas, pois as promessas de aninhamento também são operadas em estilo linear, 
-ou seja, encadeamento de promessas. O método util.promisify() faz isso por nós e faz com que o método opere com promessas. 
-Sintaxe:
-
-util.promisify(func)
-Parâmetros: Esse método aceita umfuncde parâmetro único que contém a função baseada em retorno de chamada.
-
-Valor de retorno: Esse método retorna uma função baseada em promessa.*/
