@@ -4,6 +4,8 @@
 2- Obter o endereço do usuario pelo ID. 
 */
 
+//escrevendo funções que retornam callbacks
+
 function obterusuario(callback){
     /* funcao setTimeout simula o retorno da chamada para um BD */
     setTimeout( function(){
@@ -54,7 +56,7 @@ function resolverUsuario(error, usuario) {
 }
 
 //Dessa forma o usuario só será chamado através de resolverUsuario() quando obterUsuario() terminar o retorno do dado
-//obterusuario(resolverUsuario)
+//IMPLEMENTANDO AS CALLBACKS:
 obterusuario(function resolverUsuario(error, usuario) {
     // null || "" || 0 === false . Se o valor do dado retornado for false, cairá nas consiçoes de error dos if.
     if (error){
