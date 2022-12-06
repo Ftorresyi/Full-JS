@@ -46,11 +46,20 @@ function obterEndereco(idUsuario, callback){
 
 //1° Passo: Adicionar a palavra async -> aumaticamente ela retornará um Promise
 // A forma de manipular erro será via Try e Catch
+main ()    //chama o método 
 async function main (){
     try{
+        console.time('medida-promisse') //mede o tempo de execução de um função - INICIO
         const usuario = await obterUsuario()
         const telefone = await obterTelefone(usuario.id)
         const endereco = await obterEnderecoAsync(usuario.id)
+
+        console.log(`
+            Nome: ${usuario.nome}
+            Telefone: (${telefone.ddd}) ${telefone.telefone}
+            Endereco: ${endereco.rua}, ${endereco.numero}
+        `)
+        console.timeEnd('medida-promisse') ///mede o tempo de execução de um função - FIM
     }
     catch (error){
         console.error('DEU RUIM', error)
