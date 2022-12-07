@@ -14,6 +14,7 @@ const EventEmitter = require('node:events');
 class MyEmitter extends EventEmitter{
 
 }
+import process from 'node:process';
 
 const meuEmissor = new MyEmitter()
 const nomeEvento = 'usuario:click' //manipulador de eventos
@@ -24,20 +25,32 @@ meuEmissor.on(nomeEvento, function (click){
 })
 
 //Simular que o usuario CLICKOU:
-meuEmissor.emit(nomeEvento, 'na barra de rolagem')
+/* meuEmissor.emit(nomeEvento, 'na barra de rolagem')
 meuEmissor.emit(nomeEvento, 'no OK')
 
 let count = 0
 setInterval(function(){
     meuEmissor.emit(nomeEvento, 'no OK' + (count++))
-}, 1000)
+}, 1000) */
 
-/* const EventEmitter = require('node:events');
+const stdin = process.openStdin()
+stdin.addListener('data', function(value)){
+  console.log(`Voce digitou: ${value.toString().trim()}`)
+}
 
-class MyEmitter extends EventEmitter {}
 
-const myEmitter = new MyEmitter();
-myEmitter.on('event', () => {
-  console.log('an event occurred!');
-});
-myEmitter.emit('event'); */
+
+/* process.openStdin :
+A propriedade process.stdin é uma interface de programação de aplicativo embutida do módulo 
+de processo que escuta a entrada do usuário. A propriedade stdin do objeto de processo é um fluxo legível. 
+Ele usa a função on() para ouvir o evento.
+
+Sintaxe:
+
+process.stdin.on();
+Valor de retorno: não retorna nenhum valor. 
+
+.process é uma instância de EventEmitter, e é usado para manipular eventos.
+Para saber mais sobre os Processos que o NodeJS realiza, checar a documentação:
+https://nodejs.org/api/process.html
+*/
