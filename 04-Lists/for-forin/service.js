@@ -12,10 +12,10 @@ async function obterPessoas(nome) {
     
 }
 
-//Checar se a consulta deu certo:
+//Checar se a consulta deu certo imprimirá na tela: 'A Consulta deu certo!':
 obterPessoas()
     .then (function(resultado){ //quando chegar no resultado
-        console.log('resultado') //printa na tela o resultado
+        console.log('A Consulta deu certo!') //printa na tela o resultado
     })
     .catch(function(erro){ //se der algum problema:
         console.error('Deu ruim', erro) //printa o erro
