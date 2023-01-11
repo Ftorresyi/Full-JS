@@ -26,20 +26,3 @@ obterPessoas()
 module.exports = {
     obterPessoas
 }
-
-//Consulte outras formas de usar o AXIOS para fazer requisições GET, POST, ..
-//https://attacomsian.com/blog/http-requests-axios
-//Exemplo simples de requisição GET:
-/*
-const axios = require('axios')
-
-// Send a GET request
-axios({
-  method: 'get',
-  url: 'https://reqres.in/api/users',
-  data: {
-    name: 'Jane',
-    country: 'Canada'
-  }
-})
-*/
