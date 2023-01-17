@@ -2,7 +2,7 @@ var fs=require('fs'); //importa a lib file system
 var PDFParser=require('pdf2json'); //importa pdf parser da lib pdf2json
 
 
-var pdfCaminho = 'arquivo.pdf';
+var pdfCaminho = 'pdf-com-forms.pdf';
 
 //Esse bloco de código carrega para leitura o pdf e testa se o arquivo existe no diretório indicado:
 /* if (fs.existsSync(pdfCaminho)) { //se o caminho do pdf existir:
@@ -60,7 +60,8 @@ pdfParser.on("pdfParser_dataReady", function (pdfData) {
    page.Texts.forEach(function(text, index) { 
    text.R.forEach(function(t) { 
    //console.log(pdfData.formImage.Pages[0].Texts[0].R[0].T); // Cada Pages[] possui um array chamado Texts
-   console.log(pdfData.formImage.Pages[0].Texts[1].R[1])
+   console.log(pdfData.formImage.Pages[6].Texts) //Reparei que ao rodar essa linha é impresso a mesma informação da posição dos textos diversas vezes e não entendi porquê.
+   fs.writeFile("./forms.fields.json", JSON.stringify(pdfParser.getAllFieldsTypes()), ()=>{console.log("Done.");});
    //console.log(t.T);
    });
    });
