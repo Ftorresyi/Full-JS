@@ -1,25 +1,13 @@
+//TESTANDO A LIB pdf2json
+
 var fs=require('fs'); //importa a lib file system
 var PDFParser=require('pdf2json'); //importa pdf parser da lib pdf2json
 
 
 var pdfCaminho = 'pdf-com-forms.pdf';
 
-//Esse bloco de código carrega para leitura o pdf e testa se o arquivo existe no diretório indicado:
-/* if (fs.existsSync(pdfCaminho)) { //se o caminho do pdf existir:
-  var pdfParser = new PDFParser(); //cria um objeto pdfParser (analise de pdf)
-
- 
-  pdfParser.loadPDF(pdfCaminho); //carrega o pdf para ler o arquivo
-
-  console.log('Arquivo localizado');
-} else {
-    console.log('Arquivo não localizado');
-}
- */
-
-
 //Apartir daqui adicionar a programação que vai ser executada depois que o arquivo for lido:
-
+//Esse bloco de código carrega para leitura o pdf e testa se o arquivo existe no diretório indicado:
 if (fs.existsSync(pdfCaminho)) {
     var pdfParser = new PDFParser();
     pdfParser.on("DEU ERRO NA LEITURA DO PDF", function (errData) { // Caso haja um erro na leitura do arquivo, retornará ERRO
@@ -37,21 +25,14 @@ if (fs.existsSync(pdfCaminho)) {
 
 //No seu console, você deve ver um objeto JSON contendo todos os elementos do arquivo PDF.
 //A estrutura do objeto de resposta tem muitos detalhes, segue abaixo um resumo:
-
-// 1- Todo o conteudo está dentro de formImage
-  
-// 2- Dentro de formImage, vai existir um array chamado Pages, com os elementos de cada página.
-  
+// 1- Todo o conteudo está dentro de formImage  
+// 2- Dentro de formImage, vai existir um array chamado Pages, com os elementos de cada página.  
 // 3- Dentro de Pages, vai existir um array chamado Texts, onde você vai ter partes do texto. 
 //O parser pode quebrar uma mesma linha em várias partes. 
 //Você vai ter a posição "x" e "y" daquele trecho de texto dentro da página.
-
-// 4- Para cada elemento dentro de Texts, vai existir um array de resultados chamado R. 
-
+// 4- Para cada elemento dentro de Texts, vai existir um array de resultados chamado R.
 // 5- - Por último, cada elemento "R" vai ter uma propriedade chamada "T", com o texto.
-
 //console.log(pdfData.formImage.Pages[0].Texts[0].R[0].T); //pega o primeiro texto que o parser conseguiu localizar na primeira página
-
 //O retorno possui vários arrays, então para acessar todo o conteúdo teremos que iterar três arrays. 
 //Para ler o conteúdo de cada array, pode se utilizar o forEach, ou outra estrutura de iteração de loop, como o for in, for on, for of, ou map.
 
@@ -121,3 +102,27 @@ fs.writeFile("resultado.html", retornoHtml, function(err) {
 });
 
 });
+
+
+
+/* //https://github.com/modesty/pdf2json
+
+//Parseando pdf com formulário
+
+//Analisa um PDF e escreva um arquivo fields.json que contenha apenas informações de campos de formulários interativos:
+var fs=require('fs'); //importa a lib file system
+var PDFParser=require('pdf2json'); //importa pdf parser da lib pdf2json
+
+
+var pdfCaminho = 'pdf-com-forms.pdf';
+
+const pdfParser = new PDFParser();
+
+pdfParser.on("pdfParser_dataError", errData => console.error(errData.parserError) );
+pdfParser.on("pdfParser_dataReady", pdfData => {
+    fs.writeFile("./forms.fields.json", JSON.stringify(pdfParser.getAllFieldsTypes()), ()=>{console.log("Done.");});
+});
+
+pdfParser.loadPDF("./pdf-com-forms.pdf");
+
+ */

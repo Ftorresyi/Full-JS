@@ -1,19 +1,49 @@
-//https://github.com/modesty/pdf2json
+//TESTANDO A LIB PDF-LIB
+//by https://pdf-lib.js.org/#install
 
-//Parseando pdf com formulário
+const { PDFDocument } = require ('pdf-lib')
+const fs=require('fs'); //importa a lib file system
 
-//Analisa um PDF e escreva um arquivo fields.json que contenha apenas informações de campos de formulários interativos:
-var fs=require('fs'); //importa a lib file system
-var PDFParser=require('pdf2json'); //importa pdf parser da lib pdf2json
+const formPdfBytes = fs.open('./pdf-com-forms.pdf', (err, data) => {
+    console.log('O arquivo foi lido pelo FS',data)
+})
 
 
-var pdfCaminho = 'pdf-com-forms.pdf';
+async function fillForm() {
+  //const formUrl = 'https://drive.google.com/file/d/1eqTHbikquDGTy1-ue88CgKakM2WBVv3v/view?usp=share_link'
+  //const formPdfBytes = await fetch(formUrl).then(res => res.arrayBuffer())
 
-const pdfParser = new PDFParser();
+  const pdfDoc = await PDFDocument.load(formPdfBytes)
+  console.log(pdfDoc)
+  const form = pdfDoc.getForm()
 
-pdfParser.on("pdfParser_dataError", errData => console.error(errData.parserError) );
-pdfParser.on("pdfParser_dataReady", pdfData => {
-    fs.writeFile("./forms.fields.json", JSON.stringify(pdfParser.getAllFieldsTypes()), ()=>{console.log("Done.");});
-});
+  const clausulaVII = form.getTextField('VII - Dados do Fornecedor do Bem')
+  const razaoSocial = form.getTextField('1 - Nome Completo/Razão Social')
 
-pdfParser.loadPDF("./pdf-com-forms.pdf");
+  //const characterImageField = form.getButton('CHARACTER IMAGE')
+
+  clausulaVII.setText('Diogo')
+  razaoSocial.setText('Surf Adventure')
+  
+  const pdfBytes = await pdfDoc.save()
+  const formPdfBytes = fs.writeFile('./pdf-atualizado.pdf', (err, data) => {
+    console.log('O arquivo foi salvo pelo FS',data)
+  })
+
+  //factionImageField.setImage(emblemImage)
+
+  /* backstoryField.setText(
+    [
+      `Mario is a fictional character in the Mario video game franchise, `,
+      `owned by Nintendo and created by Japanese video game designer Shigeru `,
+      `Miyamoto. Serving as the company's mascot and the eponymous `,
+      `protagonist of the series, Mario has appeared in over 200 video games `,
+      `since his creation. Depicted as a short, pudgy, Italian plumber who `,
+      `resides in the Mushroom Kingdom, his adventures generally center `,
+      `upon rescuing Princess Peach from the Koopa villain Bowser. His `,
+      `younger brother and sidekick is Luigi.`,
+    ].join('\n'),
+  ) */
+
+  
+}
