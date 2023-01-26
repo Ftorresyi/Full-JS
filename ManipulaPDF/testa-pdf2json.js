@@ -10,11 +10,11 @@ var pdfCaminho = 'pdf-com-forms.pdf';
 //Esse bloco de código carrega para leitura o pdf e testa se o arquivo existe no diretório indicado:
 if (fs.existsSync(pdfCaminho)) {
     var pdfParser = new PDFParser();
-    pdfParser.on("DEU ERRO NA LEITURA DO PDF", function (errData) { // Caso haja um erro na leitura do arquivo, retornará ERRO
+    pdfParser.on("pdfParser_dataError", function (errData) { // Caso haja um erro na leitura do arquivo, retornará ERRO
        console.error(errData.parserError)
     });
     pdfParser.on("pdfParser_dataReady", function (pdfData) { //Se não houver erros na leitura do pdf
-    console.log(pdfData)
+       //console.log(pdfData)
     });
     pdfParser.loadPDF(pdfCaminho); //carregue o arquivo pdf para leitura, de acordo com o caminho definido (pdfCaminho)
     //Apartir daqui, execute o código que quiser:
@@ -31,7 +31,7 @@ if (fs.existsSync(pdfCaminho)) {
 //O parser pode quebrar uma mesma linha em várias partes. 
 //Você vai ter a posição "x" e "y" daquele trecho de texto dentro da página.
 // 4- Para cada elemento dentro de Texts, vai existir um array de resultados chamado R.
-// 5- - Por último, cada elemento "R" vai ter uma propriedade chamada "T", com o texto.
+// 5- Por último, cada elemento "R" vai ter uma propriedade chamada "T", com o texto.
 //console.log(pdfData.formImage.Pages[0].Texts[0].R[0].T); //pega o primeiro texto que o parser conseguiu localizar na primeira página
 //O retorno possui vários arrays, então para acessar todo o conteúdo teremos que iterar três arrays. 
 //Para ler o conteúdo de cada array, pode se utilizar o forEach, ou outra estrutura de iteração de loop, como o for in, for on, for of, ou map.
@@ -41,9 +41,9 @@ pdfParser.on("pdfParser_dataReady", function (pdfData) {
    page.Texts.forEach(function(text, index) { 
    text.R.forEach(function(t) { 
    //console.log(pdfData.formImage.Pages[0].Texts[0].R[0].T); // Cada Pages[] possui um array chamado Texts
-   console.log(pdfData.formImage.Pages[6].Texts) //Reparei que ao rodar essa linha é impresso a mesma informação da posição dos textos diversas vezes e não entendi porquê.
-   fs.writeFile("./forms.fields.json", JSON.stringify(pdfParser.getAllFieldsTypes()), ()=>{console.log("Done.");});
-   //console.log(t.T);
+   console.log(pdfData.formImage.Pages[1].Texts[0].T) //Reparei que ao rodar essa linha é impresso a mesma informação da posição dos textos diversas vezes e não entendi porquê.
+   fs.writeFile("./forms.fields.json", JSON.stringify(pdfParser.getAllFieldsTypes()), ()=>{});
+    console.log(t.T);
    });
    });
    });
@@ -103,26 +103,6 @@ fs.writeFile("resultado.html", retornoHtml, function(err) {
 
 });
 
-
-
-/* //https://github.com/modesty/pdf2json
-
-//Parseando pdf com formulário
-
-//Analisa um PDF e escreva um arquivo fields.json que contenha apenas informações de campos de formulários interativos:
-var fs=require('fs'); //importa a lib file system
-var PDFParser=require('pdf2json'); //importa pdf parser da lib pdf2json
-
-
-var pdfCaminho = 'pdf-com-forms.pdf';
-
-const pdfParser = new PDFParser();
-
-pdfParser.on("pdfParser_dataError", errData => console.error(errData.parserError) );
-pdfParser.on("pdfParser_dataReady", pdfData => {
-    fs.writeFile("./forms.fields.json", JSON.stringify(pdfParser.getAllFieldsTypes()), ()=>{console.log("Done.");});
-});
-
-pdfParser.loadPDF("./pdf-com-forms.pdf");
-
- */
+// https://www.npmjs.com/package/pdf2json
+// https://blog.dbins.com.br/ler-arquivo-pdf-com-nodejs
+// https://github.com/modesty/pdf2json
