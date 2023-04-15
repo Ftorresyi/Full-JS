@@ -1,0 +1,25 @@
+{
+  "name": "ms-authentication",
+  "version": "1.0.0",
+  "description": "Microservice criado durante o live code com o pessaol da DIO",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./",
+    "build": "tsc -p ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ftorresyi/Full-JS.git"
+  },
+  "author": "Yindi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ftorresyi/Full-JS/issues"
+  },
+  "homepage": "https://github.com/Ftorresyi/Full-JS#readme",
+  "devDependencies": {
+    "@types/node": "^18.15.11",
+    "typescript": "^5.0.4"
+  }
+}
