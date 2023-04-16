@@ -1,8 +1,9 @@
 import express, {Request, Response, NextFunction } from "express";
+import usersRoute from "./routes/users.route";
 
 const app = express(); // cria uma instancia da lib express
 
-console.log("Executei!");
+app.use(usersRoute);
 
 
 //CONFIGURAR TODAS AS ROTAS DO PROJETO:
